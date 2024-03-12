@@ -3,11 +3,10 @@
 Descripcion
 Aplicación desarrollada en flutter que permite a los usuarios agregar nuevas tareas, marcarlas como completadas, eliminarlas de la lista, generar reportes por estado de tareas en curso y tareas completadas,
 
-![Flutter]([https://github.com/tu-usuario/tu-repositorio/raw/main/carpeta-de-imagenes/logo.png](https://meterpreter.org/wp-content/uploads/2018/09/flutter.png))
+![Logo de Mi Proyecto](https://meterpreter.org/wp-content/uploads/2018/09/flutter.png)
 
 Planificacion:
 Como equipo planeamos desarrollar el programa en el trascurso de la semana, desde la fecha 08/03/2024 hasta 15/03/2024. Los integrantes del quipo son:
-
 08/03/2024: definición de actividades correspondientes a cada miembro del equipo.
 11/03/2024: primera presentacion para el desarrollo
 12/03/2024: segunda presentacion para el desarrollo
