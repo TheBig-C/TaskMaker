@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_riverpod_todo_app/utils/utils.dart';
 
 class Task extends Equatable {
-  final int? id;
+  final String? id;
   final String title;
   final String note;
   final TaskCategory category;
@@ -21,7 +21,6 @@ class Task extends Equatable {
 
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
-      TaskKeys.id: id,
       TaskKeys.title: title,
       TaskKeys.note: note,
       TaskKeys.category: category.name,
@@ -31,17 +30,17 @@ class Task extends Equatable {
     };
   }
 
-  factory Task.fromJson(Map<String, dynamic> map) {
-    return Task(
-      id: map[TaskKeys.id],
-      title: map[TaskKeys.title],
-      note: map[TaskKeys.note],
-      category: TaskCategory.stringToTaskCategory(map[TaskKeys.category]),
-      time: map[TaskKeys.time],
-      date: map[TaskKeys.date],
-      isCompleted: map[TaskKeys.isCompleted] == 1 ? true : false,
-    );
-  }
+  factory Task.fromJson(String id, Map<String, dynamic> map) {
+  return Task(
+    id: id,
+    title: map[TaskKeys.title],
+    note: map[TaskKeys.note],
+    category: TaskCategory.stringToTaskCategory(map[TaskKeys.category]),
+    time: map[TaskKeys.time],
+    date: map[TaskKeys.date],
+    isCompleted: map[TaskKeys.isCompleted] == 1 ? true : false,
+  );
+}
 
   @override
   List<Object> get props {
@@ -56,7 +55,7 @@ class Task extends Equatable {
   }
 
   Task copyWith({
-    int? id,
+    String? id,
     String? title,
     String? note,
     TaskCategory? category,

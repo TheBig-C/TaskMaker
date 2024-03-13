@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "593789696283",
+    "project_id": "taskmaker-98e3f",
+    "storage_bucket": "taskmaker-98e3f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:593789696283:android:57d146a087c60439707bbe",
+        "android_client_info": {
+          "package_name": "com.example.op1"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCDKa9swuS0PftjCvu5S5jT9ApiaP7pjtQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
