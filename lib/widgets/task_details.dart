@@ -36,7 +36,7 @@ class TaskDetails extends StatelessWidget {
           Text(task.time, style: style.titleMedium),
           const Gap(16),
           Visibility(
-            visible: !task.isCompleted,
+            visible: task.isCompleted==1,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -64,7 +64,7 @@ class TaskDetails extends StatelessWidget {
           ),
           const Gap(16),
           Visibility(
-            visible: task.isCompleted,
+            visible: task.isCompleted==1,
             child: const Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

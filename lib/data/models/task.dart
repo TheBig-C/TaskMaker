@@ -4,14 +4,16 @@ import 'package:flutter_riverpod_todo_app/utils/utils.dart';
 class Task extends Equatable {
   final String? id;
   final String title;
+  final String userId;
   final String note;
   final TaskCategory category;
   final String time;
   final String date;
-  final bool isCompleted;
+  final int isCompleted;
   const Task({
     this.id,
     required this.title,
+    required this.userId,
     required this.category,
     required this.time,
     required this.date,
@@ -22,11 +24,13 @@ class Task extends Equatable {
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
       TaskKeys.title: title,
+      TaskKeys.userId: userId,
       TaskKeys.note: note,
       TaskKeys.category: category.name,
       TaskKeys.time: time,
       TaskKeys.date: date,
-      TaskKeys.isCompleted: isCompleted ? 1 : 0,
+      TaskKeys.isCompleted: isCompleted,
+
     };
   }
 
@@ -34,11 +38,12 @@ class Task extends Equatable {
   return Task(
     id: id,
     title: map[TaskKeys.title],
+    userId: map[TaskKeys.userId] ?? '',
     note: map[TaskKeys.note],
     category: TaskCategory.stringToTaskCategory(map[TaskKeys.category]),
     time: map[TaskKeys.time],
     date: map[TaskKeys.date],
-    isCompleted: map[TaskKeys.isCompleted] == 1 ? true : false,
+    isCompleted: map[TaskKeys.isCompleted] ?? 6, // Usar 6 como valor predeterminado si es nulo
   );
 }
 
@@ -46,6 +51,7 @@ class Task extends Equatable {
   List<Object> get props {
     return [
       title,
+      userId,
       note,
       category,
       time,
@@ -57,15 +63,17 @@ class Task extends Equatable {
   Task copyWith({
     String? id,
     String? title,
+    String? userId,
     String? note,
     TaskCategory? category,
     String? time,
     String? date,
-    bool? isCompleted,
+    int? isCompleted,
   }) {
     return Task(
       id: id ?? this.id,
       title: title ?? this.title,
+      userId: userId ?? this.userId,
       note: note ?? this.note,
       category: category ?? this.category,
       time: time ?? this.time,
