@@ -1,30 +1,34 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod_todo_app/config/config.dart';
 import 'package:flutter_riverpod_todo_app/data/data.dart';
 import 'package:flutter_riverpod_todo_app/providers/providers.dart';
 import 'package:flutter_riverpod_todo_app/utils/utils.dart';
+import 'package:flutter_riverpod_todo_app/widgets/side_drawer.dart';
 import 'package:flutter_riverpod_todo_app/widgets/widgets.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 
 class HomeScreen extends ConsumerWidget {
-  static HomeScreen builder(
-    BuildContext context,
-    GoRouterState state,
-  ) =>
+  static route() => MaterialPageRoute(
+        builder: (context) => const HomeScreen(),
+      );
+
+  static HomeScreen builder(BuildContext context, GoRouterState state) =>
       const HomeScreen();
-  const HomeScreen({super.key});
+
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final deviceSize = context.deviceSize;
     final date = ref.watch(dateProvider);
-    final taskState = ref.watch(tasksProvider);
-    final inCompletedTasks = _incompltedTask(taskState.tasks, ref);
-    final completedTasks = _compltedTask(taskState.tasks, ref);
+    final CollectionReference tasksCollection =
+        FirebaseFirestore.instance.collection('tasks');
 
     return Scaffold(
+      drawer: const SideDrawer(),
       body: Stack(
         children: [
           AppBackground(
@@ -57,30 +61,66 @@ class HomeScreen extends ConsumerWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    DisplayListOfTasks(
-                      tasks: inCompletedTasks,
-                    ),
-                    const Gap(20),
-                    Text(
-                      'Completed',
-                      style: context.textTheme.headlineSmall?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const Gap(20),
-                    DisplayListOfTasks(
-                      isCompletedTasks: true,
-                      tasks: completedTasks,
-                    ),
-                    const Gap(20),
-                    ElevatedButton(
-                      onPressed: () => context.push(RouteLocation.createTask),
-                      child: const Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: DisplayWhiteText(
-                          text: 'Add New Task',
-                        ),
-                      ),
+                    StreamBuilder<QuerySnapshot>(
+                      stream: tasksCollection.snapshots(),
+                      builder: (BuildContext context,
+                          AsyncSnapshot<QuerySnapshot> snapshot) {
+                        if (snapshot.hasError) {
+                          return Text('Error: ${snapshot.error}');
+                        }
+
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const CircularProgressIndicator();
+                        }
+
+                        final List<Task> tasks = snapshot.data!.docs
+                            .map((QueryDocumentSnapshot document) {
+                          final Map<String, dynamic> data =
+                              document.data() as Map<String, dynamic>;
+                          return Task.fromJson(document.id, data);
+                        }).toList();
+
+                        final List<Task> inCompletedTasks = tasks
+                            .where((task) => !task.isCompleted)
+                            .toList();
+                        final List<Task> completedTasks = tasks
+                            .where((task) => task.isCompleted)
+                            .toList();
+
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            DisplayListOfTasks(
+                              tasks: inCompletedTasks,
+                            ),
+                            const Gap(20),
+                            Text(
+                              'Completed',
+                              style:
+                                  context.textTheme.headlineSmall?.copyWith(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const Gap(20),
+                            DisplayListOfTasks(
+                              isCompletedTasks: true,
+                              tasks: completedTasks,
+                            ),
+                            const Gap(20),
+                            ElevatedButton(
+                              onPressed: () =>
+                                  context.push(RouteLocation.createTask),
+                              child: const Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: DisplayWhiteText(
+                                  text: 'Add New Task',
+                                ),
+                              ),
+                            ),
+                          ],
+                        );
+                      },
                     ),
                   ],
                 ),
@@ -90,35 +130,5 @@ class HomeScreen extends ConsumerWidget {
         ],
       ),
     );
-  }
-
-  List<Task> _incompltedTask(List<Task> tasks, WidgetRef ref) {
-    final date = ref.watch(dateProvider);
-    final List<Task> filteredTask = [];
-
-    for (var task in tasks) {
-      if (!task.isCompleted) {
-        final isTaskDay = Helpers.isTaskFromSelectedDate(task, date);
-        if (isTaskDay) {
-          filteredTask.add(task);
-        }
-      }
-    }
-    return filteredTask;
-  }
-
-  List<Task> _compltedTask(List<Task> tasks, WidgetRef ref) {
-    final date = ref.watch(dateProvider);
-    final List<Task> filteredTask = [];
-
-    for (var task in tasks) {
-      if (task.isCompleted) {
-        final isTaskDay = Helpers.isTaskFromSelectedDate(task, date);
-        if (isTaskDay) {
-          filteredTask.add(task);
-        }
-      }
-    }
-    return filteredTask;
   }
 }
