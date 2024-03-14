@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod_todo_app/auth/controller/auth_controller.dart';
 import 'package:flutter_riverpod_todo_app/config/config.dart';
 import 'package:flutter_riverpod_todo_app/data/data.dart';
 import 'package:flutter_riverpod_todo_app/providers/providers.dart';
@@ -86,7 +87,9 @@ class _CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
   }
 
   void _createTask() async {
+    final currentUser = ref.watch(currentUserDetailsProvider).value;
     final title = _titleController.text.trim();
+    final userId = currentUser!.uid;
     final note = _noteController.text.trim();
     final time = ref.watch(timeProvider);
     final date = ref.watch(dateProvider);
@@ -94,6 +97,7 @@ class _CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
     if (title.isNotEmpty) {
       final task = Task(
         title: title,
+        userId: userId,
         category: category,
         time: Helpers.timeToString(time),
         date: DateFormat.yMMMd().format(date),

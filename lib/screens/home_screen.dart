@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod_todo_app/auth/controller/auth_controller.dart';
 import 'package:flutter_riverpod_todo_app/config/config.dart';
 import 'package:flutter_riverpod_todo_app/data/data.dart';
 import 'package:flutter_riverpod_todo_app/providers/providers.dart';
+import 'package:flutter_riverpod_todo_app/screens/create_task_screen.dart';
 import 'package:flutter_riverpod_todo_app/utils/utils.dart';
 import 'package:flutter_riverpod_todo_app/widgets/side_drawer.dart';
 import 'package:flutter_riverpod_todo_app/widgets/widgets.dart';
@@ -22,6 +24,7 @@ class HomeScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final currentUser = ref.watch(currentUserDetailsProvider).value;
     final deviceSize = context.deviceSize;
     final date = ref.watch(dateProvider);
     final CollectionReference tasksCollection =
@@ -62,7 +65,9 @@ class HomeScreen extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     StreamBuilder<QuerySnapshot>(
-                      stream: tasksCollection.snapshots(),
+                      stream: tasksCollection
+                          .where('userId', isEqualTo: currentUser?.uid)
+                          .snapshots(),
                       builder: (BuildContext context,
                           AsyncSnapshot<QuerySnapshot> snapshot) {
                         if (snapshot.hasError) {
@@ -81,12 +86,10 @@ class HomeScreen extends ConsumerWidget {
                           return Task.fromJson(document.id, data);
                         }).toList();
 
-                        final List<Task> inCompletedTasks = tasks
-                            .where((task) => !task.isCompleted)
-                            .toList();
-                        final List<Task> completedTasks = tasks
-                            .where((task) => task.isCompleted)
-                            .toList();
+                        final List<Task> inCompletedTasks =
+                            tasks.where((task) => !task.isCompleted).toList();
+                        final List<Task> completedTasks =
+                            tasks.where((task) => task.isCompleted).toList();
 
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -97,8 +100,7 @@ class HomeScreen extends ConsumerWidget {
                             const Gap(20),
                             Text(
                               'Completed',
-                              style:
-                                  context.textTheme.headlineSmall?.copyWith(
+                              style: context.textTheme.headlineSmall?.copyWith(
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -109,8 +111,14 @@ class HomeScreen extends ConsumerWidget {
                             ),
                             const Gap(20),
                             ElevatedButton(
-                              onPressed: () =>
-                                  context.push(RouteLocation.createTask),
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => CreateTaskScreen(),
+                                  ),
+                                );
+                              },
                               child: const Padding(
                                 padding: EdgeInsets.all(8.0),
                                 child: DisplayWhiteText(
