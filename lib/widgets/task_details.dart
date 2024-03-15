@@ -38,7 +38,7 @@ class TaskDetails extends StatelessWidget {
           Text(task.time, style: style.subtitle1),
           const Gap(16),
           Visibility(
-            visible: task.isCompleted==1,
+            visible: task.isCompleted == 1,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -66,11 +66,11 @@ class TaskDetails extends StatelessWidget {
           ),
           const Gap(16),
           Visibility(
-            visible: task.isCompleted==1,
+            visible: task.isCompleted == 0,
             child: const Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text('Task Completed'),
+                Text('Tarea completada'),
                 Icon(
                   Icons.check_box,
                   color: Colors.green,
@@ -90,7 +90,11 @@ class TaskDetails extends StatelessWidget {
               ),
               IconButton(
                 onPressed: () {
-                  _confirmDeleteTask(context, task);
+                  if (task.isCompleted == 2) {
+                    _confirmDeleteTask(context, task);
+                  } else {
+                    _cantDeleteTask(context, task);
+                  }
                 },
                 icon: Icon(Icons.delete),
               ),
@@ -130,6 +134,27 @@ class TaskDetails extends StatelessWidget {
                 Navigator.of(context).pop();
               },
               child: Text('Eliminar'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _cantDeleteTask(BuildContext context, Task task) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Error'),
+          content:
+              Text('La tarea que desea eliminar esta en progreso o completada'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Aceptar'),
             ),
           ],
         );
