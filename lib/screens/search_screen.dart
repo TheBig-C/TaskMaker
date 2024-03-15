@@ -77,31 +77,7 @@ class _SearchScreenState extends State<SearchScreen> {
           ),
         ],
       ),
-      bottomNavigationBar: BottomAppBar(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            IconButton(
-              onPressed: () {
-                Navigator.popUntil(context, ModalRoute.withName('/'));
-              },
-              icon: Icon(Icons.home),
-            ),
-            IconButton(
-              onPressed: () {
-                // Handle Search button
-              },
-              icon: Icon(Icons.search),
-            ),
-            IconButton(
-              onPressed: () {
-                // Handle Profile button action
-              },
-              icon: Icon(Icons.account_circle),
-            ),
-          ],
-        ),
-      ),
+      
     );
   }
 
