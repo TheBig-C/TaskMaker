@@ -34,7 +34,7 @@ class _HomeViewState extends State<HomeView> {
         ),
         centerTitle: true,
       ),
-      body: const HomeScreen(),
+      body: HomeScreen(),
       drawer: const SideDrawer(),
     );
   }

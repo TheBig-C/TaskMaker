@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod_todo_app/auth/controller/auth_controller.dart';
-import 'package:flutter_riverpod_todo_app/config/config.dart';
+import 'package:flutter_riverpod_todo_app/common/loading_page.dart';
 import 'package:flutter_riverpod_todo_app/data/data.dart';
 import 'package:flutter_riverpod_todo_app/providers/providers.dart';
 import 'package:flutter_riverpod_todo_app/utils/utils.dart';
@@ -26,6 +26,8 @@ class CreateTaskScreen extends ConsumerStatefulWidget {
 class _CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _noteController = TextEditingController();
+  bool _loading = false;
+  String _status = 'Pending'; // Estado por defecto
 
   @override
   void dispose() {
@@ -58,6 +60,24 @@ class _CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
                 controller: _titleController,
               ),
               const Gap(30),
+              DropdownButtonFormField<String>(
+                value: _status,
+                onChanged: (String? newValue) {
+                  setState(() {
+                    _status = newValue!;
+                  });
+                },
+                items: <String>['Pending', 'In Progress'].map((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+                decoration: InputDecoration(
+                  labelText: 'Status',
+                ),
+              ),
+              const Gap(30),
               const CategoriesSelection(),
               const Gap(30),
               const SelectDateTime(),
@@ -70,13 +90,15 @@ class _CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
               ),
               const Gap(30),
               ElevatedButton(
-                onPressed: _createTask,
-                child: const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: DisplayWhiteText(
-                    text: 'Save',
-                  ),
-                ),
+                onPressed: _loading ? null : _createTask,
+                child: _loading
+                    ? Loader()
+                    : const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: DisplayWhiteText(
+                          text: 'Save',
+                        ),
+                      ),
               ),
               const Gap(30),
             ],
@@ -94,6 +116,12 @@ class _CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
     final time = ref.watch(timeProvider);
     final date = ref.watch(dateProvider);
     final category = ref.watch(categoryProvider);
+    int isCompleted = 1; // Por defecto, en proceso
+
+    if (_status == 'Pending') {
+      isCompleted = 2; // Cambia a pendiente si es seleccionado
+    }
+
     if (title.isNotEmpty) {
       final task = Task(
         title: title,
@@ -102,12 +130,19 @@ class _CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
         time: Helpers.timeToString(time),
         date: DateFormat.yMMMd().format(date),
         note: note,
-        isCompleted: false,
+        isCompleted: isCompleted,
       );
 
+      setState(() {
+        _loading = true;
+      });
+
       await ref.read(tasksProvider.notifier).createTask(task).then((value) {
+        setState(() {
+          _loading = false;
+        });
         AppAlerts.displaySnackbar(context, 'Task create successfully');
-        context.go(RouteLocation.home);
+        Navigator.of(context).pop();
       });
     } else {
       AppAlerts.displaySnackbar(context, 'Title cannot be empty');

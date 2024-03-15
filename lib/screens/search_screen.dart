@@ -27,7 +27,6 @@ class _SearchScreenState extends State<SearchScreen> {
   void _filterTasks(String query, String? currentUser) {
     final tasksCollection = FirebaseFirestore.instance.collection('tasks');
     tasksCollection
-    
         //.where('userId', isEqualTo: currentUser)
         .where('title', isGreaterThanOrEqualTo: query)
         .where('title', isLessThan: query + 'z')

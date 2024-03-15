@@ -1,11 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod_todo_app/data/data.dart';
 import 'package:flutter_riverpod_todo_app/utils/utils.dart';
 import 'package:flutter_riverpod_todo_app/widgets/circle_container.dart';
+import 'package:flutter_riverpod_todo_app/widgets/edit_task.dart';
 import 'package:gap/gap.dart';
 
 class TaskDetails extends StatelessWidget {
-  const TaskDetails({super.key, required this.task});
+  const TaskDetails({Key? key, required this.task}) : super(key: key);
 
   final Task task;
 
@@ -28,19 +30,19 @@ class TaskDetails extends StatelessWidget {
           const Gap(16),
           Text(
             task.title,
-            style: style.titleMedium?.copyWith(
+            style: style!.headline6!.copyWith(
               fontWeight: FontWeight.bold,
               fontSize: 20,
             ),
           ),
-          Text(task.time, style: style.titleMedium),
+          Text(task.time, style: style.subtitle1),
           const Gap(16),
           Visibility(
-            visible: !task.isCompleted,
+            visible: task.isCompleted == 1,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text('Task to be completed on '),
+                const Text('Tarea para se completada en '),
                 Text(task.date),
                 Icon(
                   Icons.check_box,
@@ -57,18 +59,18 @@ class TaskDetails extends StatelessWidget {
           const Gap(16),
           Text(
             task.note.isEmpty
-                ? 'There is no additional note for this task'
+                ? 'No hay informacion adicional para esta tarea'
                 : task.note,
-            style: context.textTheme.titleMedium,
+            style: style.subtitle1,
             textAlign: TextAlign.center,
           ),
           const Gap(16),
           Visibility(
-            visible: task.isCompleted,
+            visible: task.isCompleted == 0,
             child: const Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text('Task Completed'),
+                Text('Tarea completada'),
                 Icon(
                   Icons.check_box,
                   color: Colors.green,
@@ -76,7 +78,97 @@ class TaskDetails extends StatelessWidget {
               ],
             ),
           ),
+          const SizedBox(height: 20),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              IconButton(
+                onPressed: () {
+                  _editTask(context, task);
+                },
+                icon: Icon(Icons.edit),
+              ),
+              IconButton(
+                onPressed: () {
+                  if (task.isCompleted == 2) {
+                    _confirmDeleteTask(context, task);
+                  } else {
+                    _cantDeleteTask(context, task);
+                  }
+                },
+                icon: Icon(Icons.delete),
+              ),
+            ],
+          ),
         ],
+      ),
+    );
+  }
+
+  void _editTask(BuildContext context, Task task) async {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => EditTaskScreen(task: task),
+      ),
+    );
+  }
+
+  void _confirmDeleteTask(BuildContext context, Task task) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Advertencia'),
+          content: Text('Deseas eliminar esta tarea?'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Cancelar'),
+            ),
+            TextButton(
+              onPressed: () {
+                _deleteTask(context, task);
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
+              },
+              child: Text('Eliminar'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _cantDeleteTask(BuildContext context, Task task) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Error'),
+          content:
+              Text('La tarea que desea eliminar esta en progreso o completada'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Aceptar'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _deleteTask(BuildContext context, Task task) async {
+    final tasksCollection = FirebaseFirestore.instance.collection('tasks');
+    await tasksCollection.doc(task.id).delete();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Tarea eliminada con exito'),
+        duration: Duration(seconds: 2),
       ),
     );
   }
