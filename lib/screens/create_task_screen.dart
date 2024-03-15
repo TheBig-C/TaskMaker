@@ -25,6 +25,11 @@ class CreateTaskScreen extends ConsumerStatefulWidget {
 class _CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _noteController = TextEditingController();
+<<<<<<< Updated upstream
+=======
+  bool _loading = false;
+  String _status = 'Pendiente'; // Estado por defecto
+>>>>>>> Stashed changes
 
   @override
   void dispose() {
@@ -41,7 +46,7 @@ class _CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
       appBar: AppBar(
         backgroundColor: colors.primary,
         title: const DisplayWhiteText(
-          text: 'Add New Task',
+          text: 'Añade una nueva tarea',
         ),
       ),
       body: SafeArea(
@@ -52,23 +57,54 @@ class _CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               CommonTextField(
-                hintText: 'Task Title',
-                title: 'Task Title',
+                hintText: 'Nombre de la tarea',
+                title: 'Nombre de la tarea',
                 controller: _titleController,
               ),
               const Gap(30),
+<<<<<<< Updated upstream
+=======
+              DropdownButtonFormField<String>(
+                value: _status,
+                onChanged: (String? newValue) {
+                  setState(() {
+                    _status = newValue!;
+                  });
+                },
+                items: <String>['Pendiente', 'En Progreso'].map((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+                decoration: InputDecoration(
+                  labelText: 'Status',
+                ),
+              ),
+              const Gap(30),
+>>>>>>> Stashed changes
               const CategoriesSelection(),
               const Gap(30),
               const SelectDateTime(),
               const Gap(30),
+<<<<<<< Updated upstream
+=======
+              Text(
+                'Fecha y hora estimada para finalizacion: ',
+              ),
+              const Gap(30),
+              const SelectDateTimeEnd(),
+              const Gap(30),
+>>>>>>> Stashed changes
               CommonTextField(
-                hintText: 'Notes',
-                title: 'Notes',
+                hintText: 'Notas',
+                title: 'Notas',
                 maxLines: 6,
                 controller: _noteController,
               ),
               const Gap(30),
               ElevatedButton(
+<<<<<<< Updated upstream
                 onPressed: _createTask,
                 child: const Padding(
                   padding: EdgeInsets.all(8.0),
@@ -76,6 +112,17 @@ class _CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
                     text: 'Save',
                   ),
                 ),
+=======
+                onPressed: _loading ? null : _createTask,
+                child: _loading
+                    ? Loader()
+                    : const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: DisplayWhiteText(
+                          text: 'Guardar',
+                        ),
+                      ),
+>>>>>>> Stashed changes
               ),
               const Gap(30),
             ],
@@ -91,6 +138,15 @@ class _CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
     final time = ref.watch(timeProvider);
     final date = ref.watch(dateProvider);
     final category = ref.watch(categoryProvider);
+<<<<<<< Updated upstream
+=======
+    int isCompleted = 1; // Por defecto, en proceso
+
+    if (_status == 'Pendiente') {
+      isCompleted = 2; // Cambia a pendiente si es seleccionado
+    }
+
+>>>>>>> Stashed changes
     if (title.isNotEmpty) {
       final task = Task(
         title: title,
@@ -102,11 +158,19 @@ class _CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
       );
 
       await ref.read(tasksProvider.notifier).createTask(task).then((value) {
+<<<<<<< Updated upstream
         AppAlerts.displaySnackbar(context, 'Task create successfully');
         context.go(RouteLocation.home);
+=======
+        setState(() {
+          _loading = false;
+        });
+        AppAlerts.displaySnackbar(context, 'Tarea creada exitosamente!');
+        Navigator.of(context).pop();
+>>>>>>> Stashed changes
       });
     } else {
-      AppAlerts.displaySnackbar(context, 'Title cannot be empty');
+      AppAlerts.displaySnackbar(context, 'El titulo no puede estar vacio');
     }
   }
 }

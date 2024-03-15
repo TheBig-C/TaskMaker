@@ -7,10 +7,11 @@ import 'package:flutter_riverpod_todo_app/widgets/widgets.dart';
 
 class DisplayListOfTasks extends ConsumerWidget {
   const DisplayListOfTasks({
-    super.key,
+    Key? key,
     this.isCompletedTasks = false,
     required this.tasks,
-  });
+  }) : super(key: key);
+
   final bool isCompletedTasks;
   final List<Task> tasks;
 
@@ -20,8 +21,8 @@ class DisplayListOfTasks extends ConsumerWidget {
     final height =
         isCompletedTasks ? deviceSize.height * 0.25 : deviceSize.height * 0.3;
     final emptyTasksAlert = isCompletedTasks
-        ? 'There is no completed task yet'
-        : 'There is no task to todo!';
+        ? 'No hay tareas completadas aún!'
+        : 'No hay tareas para hacer!';
 
     return CommonContainer(
       height: height,
@@ -29,7 +30,9 @@ class DisplayListOfTasks extends ConsumerWidget {
           ? Center(
               child: Text(
                 emptyTasksAlert,
-                style: context.textTheme.headlineSmall,
+                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                      fontFamily: 'Roboto',
+                    ),
               ),
             )
           : ListView.separated(
@@ -64,7 +67,11 @@ class DisplayListOfTasks extends ConsumerWidget {
                           .then((value) {
                         AppAlerts.displaySnackbar(
                           context,
+<<<<<<< Updated upstream
                           task.isCompleted
+=======
+                          task.isCompleted == 1
+>>>>>>> Stashed changes
                               ? 'Task incompleted'
                               : 'Task completed',
                         );

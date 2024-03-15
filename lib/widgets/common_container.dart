@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod_todo_app/utils/utils.dart';
 
 class CommonContainer extends StatelessWidget {
   const CommonContainer({
-    super.key,
+    Key? key,
     this.child,
     this.height,
     this.width,
     this.color,
     this.borderRadius = 16,
     this.padding,
-  });
+  }) : super(key: key);
+
   final Widget? child;
   final double? height;
   final double? width;
@@ -20,14 +20,12 @@ class CommonContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.colorScheme;
-
     return Container(
       height: height,
       width: width,
       padding: padding,
       decoration: BoxDecoration(
-        color: color ?? colors.primaryContainer,
+        color: color ?? Color.fromARGB(255, 118, 160, 183), // Soft green color
         borderRadius: BorderRadius.circular(borderRadius),
       ),
       child: child,

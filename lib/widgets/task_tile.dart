@@ -20,11 +20,21 @@ class TaskTile extends StatelessWidget {
     final style = context.textTheme;
     final colors = context.colorScheme;
 
+<<<<<<< Updated upstream
     final textDecoration =
         task.isCompleted ? TextDecoration.lineThrough : TextDecoration.none;
     final fontWeight = task.isCompleted ? FontWeight.normal : FontWeight.bold;
     final double iconOpacity = task.isCompleted ? 0.3 : 0.5;
     final double backgroundOpacity = task.isCompleted ? 0.1 : 0.3;
+=======
+    final textDecoration = task.isCompleted == 0
+        ? TextDecoration.lineThrough
+        : TextDecoration.none;
+    final fontWeight =
+        task.isCompleted == 0 ? FontWeight.normal : FontWeight.bold;
+    final double iconOpacity = task.isCompleted == 0 ? 0.3 : 0.5;
+    final double backgroundOpacity = task.isCompleted == 0 ? 0.1 : 0.3;
+>>>>>>> Stashed changes
 
     return Padding(
       padding: const EdgeInsets.only(left: 16, top: 10, bottom: 10),
@@ -60,7 +70,11 @@ class TaskTile extends StatelessWidget {
             ],
           )),
           Checkbox(
+<<<<<<< Updated upstream
             value: task.isCompleted,
+=======
+            value: task.isCompleted == 0,
+>>>>>>> Stashed changes
             onChanged: onCompleted,
             checkColor: colors.surface,
             // fillColor: MaterialStateProperty.resolveWith<Color>(

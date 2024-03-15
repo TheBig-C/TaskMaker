@@ -7,13 +7,13 @@ import 'package:gap/gap.dart';
 
 import 'common_text_field.dart';
 
-class SelectDateTime extends ConsumerWidget {
-  const SelectDateTime({super.key});
+class SelectDateTimeEnd extends ConsumerWidget {
+  const SelectDateTimeEnd({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final time = ref.watch(timeProvider);
-    final date = ref.watch(dateProvider);
+    final time = ref.watch(endTimeProvider);
+    final date = ref.watch(endDateProvider);
 
     return Row(
       children: [
@@ -23,7 +23,7 @@ class SelectDateTime extends ConsumerWidget {
             hintText: Helpers.dateFormatter(date),
             readOnly: true,
             suffixIcon: IconButton(
-              onPressed: () => Helpers.selectDate(context, ref),
+              onPressed: () => Helpers.selectDateEnd(context, ref),
               icon: const FaIcon(FontAwesomeIcons.calendar),
             ),
           ),
@@ -50,7 +50,7 @@ class SelectDateTime extends ConsumerWidget {
       initialTime: TimeOfDay.now(),
     );
     if (pickedTime != null) {
-      ref.read(timeProvider.notifier).state = pickedTime;
+      ref.read(endTimeProvider.notifier).state = pickedTime;
     }
   }
 }
