@@ -5,6 +5,7 @@ import 'package:flutter_riverpod_todo_app/auth/controller/auth_controller.dart';
 import 'package:flutter_riverpod_todo_app/data/data.dart';
 import 'package:flutter_riverpod_todo_app/providers/date_provider.dart';
 import 'package:flutter_riverpod_todo_app/screens/create_task_screen.dart';
+import 'package:flutter_riverpod_todo_app/screens/search_screen.dart';
 import 'package:flutter_riverpod_todo_app/widgets/side_drawer.dart';
 import 'package:flutter_riverpod_todo_app/widgets/widgets.dart';
 import 'package:flutter_riverpod_todo_app/utils/utils.dart';
@@ -12,17 +13,12 @@ import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 
 class HomeScreen extends ConsumerWidget {
-  static route() => MaterialPageRoute(builder: (context) => const HomeScreen());
-
-  static HomeScreen builder(BuildContext context, GoRouterState state) => const HomeScreen();
-
-  const HomeScreen({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentUser = ref.watch(currentUserDetailsProvider).value;
     final date = ref.watch(dateProvider);
-    final CollectionReference tasksCollection = FirebaseFirestore.instance.collection('tasks');
+    final CollectionReference tasksCollection =
+        FirebaseFirestore.instance.collection('tasks');
 
     return Scaffold(
       drawer: const SideDrawer(),
@@ -46,7 +42,7 @@ class HomeScreen extends ConsumerWidget {
                             fontWeight: FontWeight.normal,
                           ),
                         ),
-                        const DisplayWhiteText(text: 'My Todo List', size: 40),
+                        const DisplayWhiteText(text: 'Mis Tareas', size: 40),
                       ],
                     ),
                   ),
@@ -54,9 +50,30 @@ class HomeScreen extends ConsumerWidget {
               ),
             ),
             const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        SearchScreen(currentUser?.uid), // Crear una instancia de la página de búsqueda
+                  ),
+                );
+              },
+              child: const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: DisplayWhiteText(
+                  text: 'Search Tasks',
+                ),
+              ),
+            ),
+            const SizedBox(height: 20),
             StreamBuilder<QuerySnapshot>(
-              stream: tasksCollection.where('userId', isEqualTo: currentUser?.uid).snapshots(),
-              builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              stream: tasksCollection
+                  .where('userId', isEqualTo: currentUser?.uid)
+                  .snapshots(),
+              builder: (BuildContext context,
+                  AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (snapshot.hasError) {
                   return Text('Error: ${snapshot.error}');
                 }
@@ -65,14 +82,18 @@ class HomeScreen extends ConsumerWidget {
                   return const CircularProgressIndicator();
                 }
 
-                final List<Task> tasks = snapshot.data!.docs
-                    .map((QueryDocumentSnapshot document) {
-                  final Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+                final List<Task> tasks =
+                    snapshot.data!.docs.map((QueryDocumentSnapshot document) {
+                  final Map<String, dynamic> data =
+                      document.data() as Map<String, dynamic>;
                   return Task.fromJson(document.id, data);
                 }).toList();
-                final List<Task> inProgressTasks = tasks.where((task) => task.isCompleted == 2).toList();
-                final List<Task> inCompletedTasks = tasks.where((task) => task.isCompleted == 1).toList();
-                final List<Task> completedTasks = tasks.where((task) => task.isCompleted == 0).toList();
+                final List<Task> inProgressTasks =
+                    tasks.where((task) => task.isCompleted == 2).toList();
+                final List<Task> inCompletedTasks =
+                    tasks.where((task) => task.isCompleted == 1).toList();
+                final List<Task> completedTasks =
+                    tasks.where((task) => task.isCompleted == 0).toList();
 
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,

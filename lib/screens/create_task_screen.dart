@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod_todo_app/auth/controller/auth_controller.dart';
-import 'package:flutter_riverpod_todo_app/config/config.dart';
+import 'package:flutter_riverpod_todo_app/common/loading_page.dart';
 import 'package:flutter_riverpod_todo_app/data/data.dart';
 import 'package:flutter_riverpod_todo_app/providers/providers.dart';
 import 'package:flutter_riverpod_todo_app/utils/utils.dart';
+import 'package:flutter_riverpod_todo_app/widgets/select_date_time_end.dart';
 import 'package:flutter_riverpod_todo_app/widgets/widgets.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
@@ -26,6 +27,7 @@ class CreateTaskScreen extends ConsumerStatefulWidget {
 class _CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _noteController = TextEditingController();
+  bool _loading = false;
   String _status = 'Pending'; // Estado por defecto
 
   @override
@@ -76,10 +78,20 @@ class _CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
                   labelText: 'Status',
                 ),
               ),
+
               const Gap(30),
               const CategoriesSelection(),
               const Gap(30),
               const SelectDateTime(),
+              const Gap(30),
+
+              Text(
+                      'Fecha y hora estimada para finalizacion: ',
+                      
+                    ),
+              const Gap(30),
+             
+              const SelectDateTimeEnd(),
               const Gap(30),
               CommonTextField(
                 hintText: 'Notes',
@@ -89,13 +101,15 @@ class _CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
               ),
               const Gap(30),
               ElevatedButton(
-                onPressed: _createTask,
-                child: const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: DisplayWhiteText(
-                    text: 'Save',
-                  ),
-                ),
+                onPressed: _loading ? null : _createTask,
+                child: _loading
+                    ? Loader()
+                    : const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: DisplayWhiteText(
+                          text: 'Save',
+                        ),
+                      ),
               ),
               const Gap(30),
             ],
@@ -112,6 +126,8 @@ class _CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
     final note = _noteController.text.trim();
     final time = ref.watch(timeProvider);
     final date = ref.watch(dateProvider);
+    final endTime = ref.watch(endTimeProvider);
+    final endDate = ref.watch(endDateProvider);
     final category = ref.watch(categoryProvider);
     int isCompleted = 1; // Por defecto, en proceso
 
@@ -126,13 +142,22 @@ class _CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
         category: category,
         time: Helpers.timeToString(time),
         date: DateFormat.yMMMd().format(date),
+        endTime: Helpers.timeToString(endTime),
+        endDate: DateFormat.yMMMd().format(endDate),
         note: note,
         isCompleted: isCompleted,
       );
 
+      setState(() {
+        _loading = true;
+      });
+
       await ref.read(tasksProvider.notifier).createTask(task).then((value) {
+        setState(() {
+          _loading = false;
+        });
         AppAlerts.displaySnackbar(context, 'Task create successfully');
-        context.go(RouteLocation.home);
+        Navigator.of(context).pop();
       });
     } else {
       AppAlerts.displaySnackbar(context, 'Title cannot be empty');

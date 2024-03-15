@@ -37,7 +37,19 @@ class Helpers {
       ref.read(dateProvider.notifier).state = pickedDate;
     }
   }
+static void selectDateEnd(BuildContext context, WidgetRef ref) async {
+    final initialDate = ref.read(endDateProvider);
+    DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: initialDate,
+      firstDate: DateTime(2023),
+      lastDate: DateTime(2060),
+    );
 
+    if (pickedDate != null) {
+      ref.read(endDateProvider.notifier).state = pickedDate;
+    }
+  }
   static bool isTaskFromSelectedDate(Task task, DateTime selectedDate) {
     final DateTime taskDate = _stringToDateTime(task.date);
     if (taskDate.month == selectedDate.month &&

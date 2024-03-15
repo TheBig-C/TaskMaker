@@ -9,6 +9,8 @@ class TaskKeys {
   static const String category = 'category';
   static const String date = 'date';
   static const String time = 'time';
+  static const String endDate = 'endDate';
+  static const String endTime = 'endTime';
   static const String note = 'note';
   static const String isCompleted = 'isCompleted';
 }
