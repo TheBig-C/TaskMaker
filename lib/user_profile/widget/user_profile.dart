@@ -6,8 +6,8 @@ import 'package:flutter_riverpod_todo_app/config/theme/pallete.dart';
 import 'package:flutter_riverpod_todo_app/data/models/user.dart';
 import 'package:flutter_riverpod_todo_app/user_profile/controller/user_profile_controller.dart';
 import 'package:flutter_riverpod_todo_app/user_profile/view/edit_profile_view.dart';
+import 'package:flutter_riverpod_todo_app/user_profile/widget/stats.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
 
 class UserProfile extends ConsumerWidget {
   final UserModel user;
@@ -68,7 +68,7 @@ class UserProfile extends ConsumerWidget {
                             padding: const EdgeInsets.symmetric(horizontal: 25),
                           ),
                           child: Text(
-                                'Edit Profile',
+                            'Edit Profile',
                             style: const TextStyle(
                               color: Pallete.whiteColor,
                             ),
@@ -116,7 +116,9 @@ class UserProfile extends ConsumerWidget {
                 ),
               ];
             },
-            body: Container()
+            
+            body: TaskStatisticsWidget(user: user,
+            ),
           );
   }
 }

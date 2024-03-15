@@ -73,6 +73,8 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
       isCompleted: widget.task.isCompleted,
       date: widget.task.date,
       time: widget.task.time,
+       endDate: widget.task.endDate,
+      endTime: widget.task.endTime,
       category: widget.task.category,
       userId: widget.task.userId,
     );

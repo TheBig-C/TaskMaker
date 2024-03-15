@@ -4,3 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 final timeProvider = StateProvider.autoDispose<TimeOfDay>((ref) {
   return TimeOfDay.now();
 });
+final endTimeProvider = StateProvider.autoDispose<TimeOfDay>((ref) {
+  return TimeOfDay.now();
+});

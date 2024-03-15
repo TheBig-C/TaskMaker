@@ -5,6 +5,7 @@ import 'package:flutter_riverpod_todo_app/common/loading_page.dart';
 import 'package:flutter_riverpod_todo_app/data/data.dart';
 import 'package:flutter_riverpod_todo_app/providers/providers.dart';
 import 'package:flutter_riverpod_todo_app/utils/utils.dart';
+import 'package:flutter_riverpod_todo_app/widgets/select_date_time_end.dart';
 import 'package:flutter_riverpod_todo_app/widgets/widgets.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
@@ -77,10 +78,20 @@ class _CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
                   labelText: 'Status',
                 ),
               ),
+
               const Gap(30),
               const CategoriesSelection(),
               const Gap(30),
               const SelectDateTime(),
+              const Gap(30),
+
+              Text(
+                      'Fecha y hora estimada para finalizacion: ',
+                      
+                    ),
+              const Gap(30),
+             
+              const SelectDateTimeEnd(),
               const Gap(30),
               CommonTextField(
                 hintText: 'Notes',
@@ -115,6 +126,8 @@ class _CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
     final note = _noteController.text.trim();
     final time = ref.watch(timeProvider);
     final date = ref.watch(dateProvider);
+    final endTime = ref.watch(endTimeProvider);
+    final endDate = ref.watch(endDateProvider);
     final category = ref.watch(categoryProvider);
     int isCompleted = 1; // Por defecto, en proceso
 
@@ -129,6 +142,8 @@ class _CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
         category: category,
         time: Helpers.timeToString(time),
         date: DateFormat.yMMMd().format(date),
+        endTime: Helpers.timeToString(endTime),
+        endDate: DateFormat.yMMMd().format(endDate),
         note: note,
         isCompleted: isCompleted,
       );
