@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_riverpod_todo_app/auth/controller/auth_controller.dart';
 import 'package:flutter_riverpod_todo_app/data/models/task.dart';
 import 'package:flutter_riverpod_todo_app/data/models/user.dart';
 import 'package:flutter_riverpod_todo_app/utils/task_category.dart';
@@ -44,9 +43,9 @@ class TaskStatisticsWidget extends StatelessWidget {
                   Text(
                     'Estadisticas del usuario: ',
                     style: const TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                    ),
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Roboto'),
                   ),
                   Container(
                     height: 300,
@@ -114,9 +113,9 @@ class TaskStatisticsWidget extends StatelessWidget {
       }
     });
     return {
-      'Completed': completed,
-      'In Progress': inProgress,
-      'Pending': pending,
+      'Completado': completed,
+      'En Progreso': inProgress,
+      'Pendiente': pending,
     };
   }
 

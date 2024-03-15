@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod_todo_app/auth/controller/auth_controller.dart';
 import 'package:flutter_riverpod_todo_app/common/loading_page.dart';
+import 'package:flutter_riverpod_todo_app/config/config.dart';
 import 'package:flutter_riverpod_todo_app/data/data.dart';
 import 'package:flutter_riverpod_todo_app/providers/providers.dart';
 import 'package:flutter_riverpod_todo_app/utils/utils.dart';
@@ -28,7 +29,7 @@ class _CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _noteController = TextEditingController();
   bool _loading = false;
-  String _status = 'Pending'; // Estado por defecto
+  String _status = 'Pendiente'; // Estado por defecto
 
   @override
   void dispose() {
@@ -45,7 +46,7 @@ class _CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
       appBar: AppBar(
         backgroundColor: colors.primary,
         title: const DisplayWhiteText(
-          text: 'Add New Task',
+          text: 'Añade una nueva tarea',
         ),
       ),
       body: SafeArea(
@@ -56,8 +57,8 @@ class _CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               CommonTextField(
-                hintText: 'Task Title',
-                title: 'Task Title',
+                hintText: 'Nombre de la tarea',
+                title: 'Nombre de la tarea',
                 controller: _titleController,
               ),
               const Gap(30),
@@ -68,7 +69,7 @@ class _CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
                     _status = newValue!;
                   });
                 },
-                items: <String>['Pending', 'In Progress'].map((String value) {
+                items: <String>['Pendiente', 'En Progreso'].map((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
                     child: Text(value),
@@ -78,24 +79,20 @@ class _CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
                   labelText: 'Status',
                 ),
               ),
-
               const Gap(30),
               const CategoriesSelection(),
               const Gap(30),
               const SelectDateTime(),
               const Gap(30),
-
               Text(
-                      'Fecha y hora estimada para finalizacion: ',
-                      
-                    ),
+                'Fecha y hora estimada para finalizacion: ',
+              ),
               const Gap(30),
-             
               const SelectDateTimeEnd(),
               const Gap(30),
               CommonTextField(
-                hintText: 'Notes',
-                title: 'Notes',
+                hintText: 'Notas',
+                title: 'Notas',
                 maxLines: 6,
                 controller: _noteController,
               ),
@@ -107,7 +104,7 @@ class _CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
                     : const Padding(
                         padding: EdgeInsets.all(8.0),
                         child: DisplayWhiteText(
-                          text: 'Save',
+                          text: 'Guardar',
                         ),
                       ),
               ),
@@ -131,7 +128,7 @@ class _CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
     final category = ref.watch(categoryProvider);
     int isCompleted = 1; // Por defecto, en proceso
 
-    if (_status == 'Pending') {
+    if (_status == 'Pendiente') {
       isCompleted = 2; // Cambia a pendiente si es seleccionado
     }
 

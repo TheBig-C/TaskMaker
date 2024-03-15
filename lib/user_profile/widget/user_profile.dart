@@ -4,16 +4,12 @@ import 'package:flutter_riverpod_todo_app/auth/controller/auth_controller.dart';
 import 'package:flutter_riverpod_todo_app/common/loading_page.dart';
 import 'package:flutter_riverpod_todo_app/config/theme/pallete.dart';
 import 'package:flutter_riverpod_todo_app/data/models/user.dart';
-import 'package:flutter_riverpod_todo_app/user_profile/controller/user_profile_controller.dart';
 import 'package:flutter_riverpod_todo_app/user_profile/view/edit_profile_view.dart';
 import 'package:flutter_riverpod_todo_app/user_profile/widget/stats.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class UserProfile extends ConsumerWidget {
-  final UserModel user;
   const UserProfile({
     super.key,
-    required this.user,
   });
 
   @override
@@ -32,19 +28,19 @@ class UserProfile extends ConsumerWidget {
                   flexibleSpace: Stack(
                     children: [
                       Positioned.fill(
-                        child: user.bannerPic.isEmpty
+                        child: currentUser.bannerPic.isEmpty
                             ? Container(
-                                color: Pallete.blueColor,
+                                color: Color.fromARGB(255, 118, 160, 183),
                               )
                             : Image.network(
-                                user.bannerPic,
+                                currentUser.bannerPic,
                                 fit: BoxFit.fitWidth,
                               ),
                       ),
                       Positioned(
                         bottom: 0,
                         child: CircleAvatar(
-                          backgroundImage: NetworkImage(user.profilePic),
+                          backgroundImage: NetworkImage(currentUser.profilePic),
                           radius: 45,
                         ),
                       ),
@@ -53,7 +49,7 @@ class UserProfile extends ConsumerWidget {
                         margin: const EdgeInsets.all(20),
                         child: OutlinedButton(
                           onPressed: () {
-                            if (currentUser.uid == user.uid) {
+                            if (currentUser.uid == currentUser.uid) {
                               // edit profile
                               Navigator.push(context, EditProfileView.route());
                             }
@@ -68,7 +64,7 @@ class UserProfile extends ConsumerWidget {
                             padding: const EdgeInsets.symmetric(horizontal: 25),
                           ),
                           child: Text(
-                            'Edit Profile',
+                            'Editar Perfil',
                             style: const TextStyle(
                               color: Pallete.whiteColor,
                             ),
@@ -86,7 +82,7 @@ class UserProfile extends ConsumerWidget {
                         Row(
                           children: [
                             Text(
-                              user.name,
+                              currentUser.name,
                               style: const TextStyle(
                                 fontSize: 25,
                                 fontWeight: FontWeight.bold,
@@ -95,14 +91,14 @@ class UserProfile extends ConsumerWidget {
                           ],
                         ),
                         Text(
-                          '@${user.name}',
+                          '@${currentUser.name}',
                           style: const TextStyle(
                             fontSize: 17,
                             color: Pallete.greyColor,
                           ),
                         ),
                         Text(
-                          user.bio,
+                          currentUser.bio,
                           style: const TextStyle(
                             fontSize: 17,
                           ),
@@ -116,8 +112,8 @@ class UserProfile extends ConsumerWidget {
                 ),
               ];
             },
-            
-            body: TaskStatisticsWidget(user: user,
+            body: TaskStatisticsWidget(
+              user: currentUser,
             ),
           );
   }

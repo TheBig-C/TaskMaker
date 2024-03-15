@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod_todo_app/auth/controller/auth_controller.dart';
 import 'package:flutter_riverpod_todo_app/common/loading_page.dart';
 import 'package:flutter_riverpod_todo_app/config/theme/pallete.dart';
+import 'package:flutter_riverpod_todo_app/screens/welcomePage.dart';
 import 'package:flutter_riverpod_todo_app/user_profile/view/user_profile_view.dart';
 
 class SideDrawer extends ConsumerWidget {
@@ -53,6 +54,7 @@ class SideDrawer extends ConsumerWidget {
               ),
               onTap: () {
                 ref.read(authControllerProvider.notifier).logout(context);
+                //Navigator.push(context, WelcomePage.route());
               },
             ),
           ],

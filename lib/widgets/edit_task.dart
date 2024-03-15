@@ -1,9 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod_todo_app/common/loading_page.dart';
 import 'package:flutter_riverpod_todo_app/data/data.dart';
-import 'package:flutter_riverpod_todo_app/utils/utils.dart';
 
 class EditTaskScreen extends StatefulWidget {
   final Task task;
@@ -30,7 +28,7 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Edit Task'),
+        title: Text('Editar Tarea'),
       ),
       body: _loading ? Loader() : _buildForm(),
     );
@@ -44,19 +42,19 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
         children: [
           TextField(
             controller: _titleController,
-            decoration: InputDecoration(labelText: 'Title'),
+            decoration: InputDecoration(labelText: 'Titulo'),
           ),
           const SizedBox(height: 20),
           TextField(
             controller: _noteController,
-            decoration: InputDecoration(labelText: 'Note'),
+            decoration: InputDecoration(labelText: 'Nota'),
           ),
           const SizedBox(height: 20),
           ElevatedButton(
             onPressed: () {
               _updateTask(context);
             },
-            child: Text('Save Changes'),
+            child: Text('Guardar cambios'),
           ),
         ],
       ),
@@ -73,7 +71,7 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
       isCompleted: widget.task.isCompleted,
       date: widget.task.date,
       time: widget.task.time,
-       endDate: widget.task.endDate,
+      endDate: widget.task.endDate,
       endTime: widget.task.endTime,
       category: widget.task.category,
       userId: widget.task.userId,
@@ -91,7 +89,7 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('Task updated successfully'),
+        content: Text('Tarea actualizada correctamente!'),
         duration: Duration(seconds: 2),
       ),
     );

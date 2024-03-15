@@ -131,6 +131,7 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
                           'Crea una cuenta con tu correo',
                           style: TextStyle(
                             fontSize: 50,
+                            fontFamily: 'Roboto',
                           ),
                           textAlign: TextAlign.right,
                         ),
@@ -143,9 +144,9 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
                           child: Text(
                             'Tu correo:',
                             style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'Roboto'),
                           ),
                         ),
 
@@ -165,9 +166,9 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
                           child: Text(
                             'Contrasena:',
                             style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'Roboto'),
                           ),
                         ),
 
@@ -197,9 +198,9 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
                           child: Text(
                             'Confirmar contrasena:',
                             style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'Roboto'),
                           ),
                         ),
 
@@ -242,9 +243,9 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
                               child: Text(
                                 'Informacion de contacto',
                                 style: TextStyle(
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: 'Roboto'),
                               ),
                             ),
                             const SizedBox(height: 10),
@@ -253,8 +254,7 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
                               child: Text(
                                 'Por favor completa la informacion de tu perfil',
                                 style: TextStyle(
-                                  fontSize: 16,
-                                ),
+                                    fontSize: 16, fontFamily: 'Roboto'),
                               ),
                             ),
                             const SizedBox(height: 15),
@@ -266,9 +266,9 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
                               child: Text(
                                 'Nombre:',
                                 style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: 'Roboto'),
                               ),
                             ),
                             const SizedBox(height: 5),
@@ -282,9 +282,9 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
                               child: Text(
                                 'Apellido:',
                                 style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: 'Roboto'),
                               ),
                             ),
                             const SizedBox(height: 5),
@@ -305,7 +305,8 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
                               onPressed: previousStep,
                               child: const Text('Atras'),
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: Color.fromARGB(255, 198, 12, 12),
+                                backgroundColor:
+                                    Color.fromARGB(255, 10, 117, 54),
                               ),
                             ),
                             ElevatedButton(
@@ -317,7 +318,8 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
                                 ),*/
                               ),
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: Color.fromARGB(255, 198, 12, 12),
+                                backgroundColor:
+                                    Color.fromARGB(255, 10, 117, 54),
                               ),
                             ),
                           ],
@@ -337,7 +339,8 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                       content: Text(passwordError),
-                                      backgroundColor: Colors.white,
+                                      backgroundColor: const Color.fromARGB(
+                                          255, 218, 218, 218),
                                     ),
                                   );
                                 } else {
@@ -345,9 +348,10 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
                                   nextStep();
                                 }
                               },
-                              child: const Text('Siguiete'),
+                              child: const Text('Siguiente'),
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: Color.fromARGB(255, 198, 12, 12),
+                                backgroundColor:
+                                    Color.fromARGB(255, 10, 117, 54),
                               ),
                             ),
                           ],

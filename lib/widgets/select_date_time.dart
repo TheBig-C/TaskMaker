@@ -4,6 +4,7 @@ import 'package:flutter_riverpod_todo_app/providers/providers.dart';
 import 'package:flutter_riverpod_todo_app/utils/utils.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
+
 import 'common_text_field.dart';
 
 class SelectDateTime extends ConsumerWidget {
@@ -18,7 +19,7 @@ class SelectDateTime extends ConsumerWidget {
       children: [
         Expanded(
           child: CommonTextField(
-            title: 'Date',
+            title: 'Fecha',
             hintText: Helpers.dateFormatter(date),
             readOnly: true,
             suffixIcon: IconButton(
@@ -30,7 +31,7 @@ class SelectDateTime extends ConsumerWidget {
         const Gap(10),
         Expanded(
           child: CommonTextField(
-            title: 'Time',
+            title: 'Hora',
             hintText: Helpers.timeToString(time),
             readOnly: true,
             suffixIcon: IconButton(

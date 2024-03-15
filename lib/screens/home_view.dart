@@ -1,27 +1,35 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod_todo_app/config/theme/pallete.dart';
 import 'package:flutter_riverpod_todo_app/screens/home_screen.dart';
+import 'package:flutter_riverpod_todo_app/screens/search_screen.dart';
+import 'package:flutter_riverpod_todo_app/user_profile/widget/user_profile.dart';
 import 'package:flutter_riverpod_todo_app/widgets/side_drawer.dart';
 import 'package:flutter_svg/svg.dart';
 
 class HomeView extends StatefulWidget {
+  const HomeView({Key? key}) : super(key: key);
+
+  @override
+  _HomeViewState createState() => _HomeViewState();
+
   static route() => MaterialPageRoute(
         builder: (context) => const HomeView(),
       );
-  const HomeView({super.key});
-
-  @override
-  State<HomeView> createState() => _HomeViewState();
 }
 
 class _HomeViewState extends State<HomeView> {
-  int _page = 0;
+  late PageController _pageController;
+  int _currentIndex = 0;
 
-  void onPageChange(int index) {
-    setState(() {
-      _page = index;
-    });
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController(initialPage: _currentIndex);
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
   }
 
   @override
@@ -34,7 +42,41 @@ class _HomeViewState extends State<HomeView> {
         ),
         centerTitle: true,
       ),
-      body: HomeScreen(),
+      body: PageView(
+        controller: _pageController,
+        onPageChanged: (index) {
+          setState(() {
+            _currentIndex = index;
+          });
+        },
+        children: [
+          HomeScreen(),
+          UserProfile(),
+        ],
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentIndex,
+        onTap: (index) {
+          setState(() {
+            _currentIndex = index;
+            _pageController.animateToPage(
+              index,
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.ease,
+            );
+          });
+        },
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Inicio',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.account_circle),
+            label: 'Perfil',
+          ),
+        ],
+      ),
       drawer: const SideDrawer(),
     );
   }

@@ -36,13 +36,13 @@ class UserProfileView extends ConsumerWidget {
                 }
               }
 
-              return UserProfile(user: copyOfUser);
+              return UserProfile();
             },
             error: (error, st) => ErrorText(
               error: error.toString(),
             ),
             loading: () {
-              return UserProfile(user: copyOfUser);
+              return UserProfile();
             },
           ),
     );

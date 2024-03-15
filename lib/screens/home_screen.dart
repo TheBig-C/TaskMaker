@@ -50,7 +50,6 @@ class HomeScreen extends ConsumerWidget {
                 ],
               ),
             ),
-            
             const SizedBox(height: 20),
             StreamBuilder<QuerySnapshot>(
               stream: tasksCollection
@@ -100,7 +99,7 @@ class HomeScreen extends ConsumerWidget {
                       ),
                     ),
                     Text(
-                      'In pending',
+                      'Pendientes',
                       style: context.textTheme.headline6?.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
@@ -110,7 +109,7 @@ class HomeScreen extends ConsumerWidget {
                       tasks: inProgressTasks,
                     ),
                     Text(
-                      'In progress',
+                      'En progreso',
                       style: context.textTheme.headline6?.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
@@ -120,7 +119,7 @@ class HomeScreen extends ConsumerWidget {
                       tasks: inCompletedTasks,
                     ),
                     Text(
-                      'Completed',
+                      'Completadas',
                       style: context.textTheme.headline6?.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
@@ -130,23 +129,7 @@ class HomeScreen extends ConsumerWidget {
                       isCompletedTasks: true,
                       tasks: completedTasks,
                     ),
-                    const Gap(20),
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => CreateTaskScreen(),
-                          ),
-                        );
-                      },
-                      child: const Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: DisplayWhiteText(
-                          text: 'Add New Task',
-                        ),
-                      ),
-                    ),
+                    
                     const Gap(20),
                   ],
                 );
@@ -155,6 +138,18 @@ class HomeScreen extends ConsumerWidget {
           ],
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => CreateTaskScreen(),
+            ),
+          );
+        },
+        child: Icon(Icons.add),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 }

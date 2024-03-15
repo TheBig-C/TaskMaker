@@ -1,9 +1,9 @@
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod_todo_app/auth/controller/auth_controller.dart';
 import 'package:flutter_riverpod_todo_app/common/loading_page.dart';
-import 'package:flutter_riverpod_todo_app/config/theme/pallete.dart';
 import 'package:flutter_riverpod_todo_app/data/utils/utils.dart';
 import 'package:flutter_riverpod_todo_app/user_profile/controller/user_profile_controller.dart';
 
@@ -67,7 +67,7 @@ class _EditProfileViewState extends ConsumerState<EditProfileView> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Edit Profile'),
+        title: const Text('Editar Perfil'),
         centerTitle: false,
         actions: [
           TextButton(
@@ -85,7 +85,7 @@ class _EditProfileViewState extends ConsumerState<EditProfileView> {
                   );
             },
             child: const Text(
-              'Save',
+              'Guardar',
               style: TextStyle(
                   color: Colors.white), // Cambia el color del texto a blanco
             ),
@@ -115,7 +115,7 @@ class _EditProfileViewState extends ConsumerState<EditProfileView> {
                                 )
                               : user.bannerPic.isEmpty
                                   ? Container(
-                                      color: Pallete.blueColor,
+                                      color: Color.fromARGB(255, 118, 160, 183),
                                     )
                                   : Image.network(
                                       user.bannerPic,
@@ -146,7 +146,7 @@ class _EditProfileViewState extends ConsumerState<EditProfileView> {
                 TextField(
                   controller: nameController,
                   decoration: const InputDecoration(
-                    hintText: 'Name',
+                    hintText: 'Nombre',
                     contentPadding: EdgeInsets.all(18),
                   ),
                 ),

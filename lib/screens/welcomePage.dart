@@ -22,44 +22,41 @@ class WelcomePage extends ConsumerWidget {
     return Scaffold(
       body: SafeArea(
         child: Container(
-          // we will give media query height
-          // double.infinity make it big as my parent allows
-          // while MediaQuery make it big as per the screen
-
           width: double.infinity,
           height: MediaQuery.of(context).size.height,
           padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 50),
           child: Column(
-            // even space distribution
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               const Column(
                 children: <Widget>[
-                  Text(
-                    "Bienvenido a TaskMaker",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 30,
-                    ),
-                  ),
                   SizedBox(
                     height: 5,
                   ),
                 ],
               ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height / 3,
-                child: SvgPicture.asset('../assets/svgs/WelcomeSvg.svg'),
-              ),
               Column(
                 children: <Widget>[
+                  Text(
+                    "Bienvenido a TaskMaker",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: 'Sans Serif', // Set font family here
+                      fontWeight: FontWeight.bold,
+                      fontSize: 30,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
                   Text(
                     "Organizate con TaskMaker",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Colors.grey[700],
                       fontSize: 15,
+                      fontFamily: 'Sans Serif',
                     ),
                   )
                 ],
@@ -76,33 +73,36 @@ class WelcomePage extends ConsumerWidget {
                           MaterialPageRoute(
                               builder: (context) => const SignUpView()));
                     },
-                    color: Color.fromARGB(255, 198, 12, 12),
+                    color: Color.fromARGB(255, 10, 117, 54),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(50)),
                     child: const Text(
                       "Registrate con Email",
                       style: TextStyle(
                           color: Colors.white,
+                          fontFamily: 'Ageo',
                           fontWeight: FontWeight.w600,
                           fontSize: 18),
                     ),
                   ),
                   const SizedBox(height: 10),
-                  MaterialButton(
+                  /*MaterialButton(
                     minWidth: double.infinity,
                     height: 60,
                     onPressed: () {},
-                    // defining the shape
                     shape: RoundedRectangleBorder(
                         side: const BorderSide(
-                            color: Color.fromARGB(255, 198, 12, 12)),
+                            color: Color.fromARGB(255, 10, 117, 54)),
                         borderRadius: BorderRadius.circular(50)),
                     child: const Text(
                       "Registrate con Google",
-                      style:
-                          TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 18,
+                        fontFamily: 'Ageo',
+                      ),
                     ),
-                  ),
+                  ),*/
                 ],
               ),
               RichText(
@@ -110,12 +110,13 @@ class WelcomePage extends ConsumerWidget {
                   text: "Tienes una cuenta?",
                   style: const TextStyle(
                     fontSize: 16,
+                    color: Colors.black,
                   ),
                   children: [
                     TextSpan(
                       text: ' Iniciar sesion',
                       style: const TextStyle(
-                        color: Color.fromARGB(255, 198, 12, 12),
+                        color: Color.fromARGB(255, 10, 117, 54),
                         fontSize: 16,
                       ),
                       recognizer: TapGestureRecognizer()

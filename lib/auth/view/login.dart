@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod_todo_app/auth/controller/auth_controller.dart';
 import 'package:flutter_riverpod_todo_app/auth/view/signup_view.dart';
+import 'package:flutter_riverpod_todo_app/common/loading_page.dart';
 import 'package:flutter_riverpod_todo_app/common/rounded_small_button.dart';
 import 'package:flutter_riverpod_todo_app/widgets/auth_field.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:flutter_riverpod_todo_app/common/loading_page.dart';
 
 class LoginView extends ConsumerStatefulWidget {
   static route() => MaterialPageRoute(
@@ -44,12 +44,12 @@ class _LoginViewState extends ConsumerState<LoginView> {
 
     return Scaffold(
       appBar: AppBar(
-      title: SvgPicture.asset(
-        '../assets/svgs/taskMasterLogo.svg',
-        height: 30,
+        title: SvgPicture.asset(
+          '../assets/svgs/taskMasterLogo.svg',
+          height: 30,
+        ),
+        centerTitle: true,
       ),
-      centerTitle: true,
-    ),
       body: isLoading
           ? const Loader()
           : Center(
@@ -63,15 +63,19 @@ class _LoginViewState extends ConsumerState<LoginView> {
                           const Text(
                             "Login",
                             style: TextStyle(
-                                fontSize: 30, fontWeight: FontWeight.bold),
+                                fontSize: 30,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'Roboto'),
                           ),
                           const SizedBox(
                             height: 20,
                           ),
                           Text(
-                            "Login to your account",
+                            "Inicia sesion en tu cuenta",
                             style: TextStyle(
-                                fontSize: 15, color: Colors.grey[700]),
+                                fontSize: 15,
+                                fontFamily: 'Roboto',
+                                color: Colors.grey[700]),
                           )
                         ],
                       ),
@@ -113,24 +117,25 @@ class _LoginViewState extends ConsumerState<LoginView> {
                         child: RoundedSmallButton(
                           onTap: onLogin,
                           label: 'Done',
-                          backgroundColor: Color.fromARGB(255, 198, 12, 12),
+                          backgroundColor: Color.fromARGB(255, 10, 117, 54),
                           textColor: Colors.white,
                         ),
                       ),
                       const SizedBox(height: 40),
                       RichText(
                         text: TextSpan(
-                          text: "Don't have an account?",
+                          text: "No tienes cuenta?",
                           style: const TextStyle(
                             fontSize: 16,
+                            color: Colors.black,
                           ),
                           children: [
                             TextSpan(
                               text: ' Sign up',
                               style: const TextStyle(
-                                color: Color.fromARGB(255, 198, 12, 12),
-                                fontSize: 16,
-                              ),
+                                  color: Color.fromARGB(255, 10, 117, 54),
+                                  fontSize: 16,
+                                  fontFamily: 'Roboto'),
                               recognizer: TapGestureRecognizer()
                                 ..onTap = () {
                                   Navigator.push(

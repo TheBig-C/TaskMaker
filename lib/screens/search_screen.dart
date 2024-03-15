@@ -77,14 +77,42 @@ class _SearchScreenState extends State<SearchScreen> {
           ),
         ],
       ),
+      bottomNavigationBar: BottomAppBar(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            IconButton(
+              onPressed: () {
+                Navigator.popUntil(context, ModalRoute.withName('/'));
+              },
+              icon: Icon(Icons.home),
+            ),
+            IconButton(
+              onPressed: () {
+                // Handle Search button
+              },
+              icon: Icon(Icons.search),
+            ),
+            IconButton(
+              onPressed: () {
+                // Handle Profile button action
+              },
+              icon: Icon(Icons.account_circle),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
   Widget _buildFilterButton(String label, TaskStatus status) {
     final isSelected = _selectedStatus == status;
-    final primaryColor = isSelected ? Colors.purple : Colors.white;
-    final borderColor = isSelected ? Colors.purple : Colors.grey[300]!;
-    final textColor = isSelected ? Colors.white : Colors.purple;
+    final primaryColor =
+        isSelected ? Color.fromARGB(255, 118, 160, 183) : Colors.white;
+    final borderColor =
+        isSelected ? Color.fromARGB(255, 118, 160, 183) : Colors.grey[300]!;
+    final textColor =
+        isSelected ? Colors.white : Color.fromARGB(255, 118, 160, 183);
     return ElevatedButton(
       onPressed: () {
         setState(() {
