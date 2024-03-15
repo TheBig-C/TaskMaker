@@ -22,34 +22,29 @@ class _SearchScreenState extends State<SearchScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Buscar Tareas'),
-        actions: [
-          PopupMenuButton<TaskStatus>(
-            onSelected: (status) {
-              setState(() {
-                _selectedStatus = status!;
-                _updateSearchQuery(_searchQuery);
-              });
-            },
-            itemBuilder: (BuildContext context) {
-              return TaskStatus.values.map((status) {
-                return PopupMenuItem(
-                  value: status,
-                  child: Text(_getStatusText(status)),
-                );
-              }).toList();
-            },
-          ),
-        ],
       ),
       body: Column(
         children: [
           const SizedBox(height: 20),
-          TextField(
-            onChanged: _updateSearchQuery,
-            decoration: InputDecoration(
-              labelText: 'Buscar',
-              prefixIcon: Icon(Icons.search),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: TextField(
+              onChanged: _updateSearchQuery,
+              decoration: InputDecoration(
+                labelText: 'Buscar',
+                prefixIcon: Icon(Icons.search),
+              ),
             ),
+          ),
+          const SizedBox(height: 20),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              _buildFilterButton('Todas', TaskStatus.all),
+              _buildFilterButton('Completadas', TaskStatus.completed),
+              _buildFilterButton('En Progreso', TaskStatus.inProgress),
+              _buildFilterButton('Incompletas', TaskStatus.incomplete),
+            ],
           ),
           const SizedBox(height: 20),
           // Mostrar las tareas filtradas
@@ -85,17 +80,32 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 
-  String _getStatusText(TaskStatus status) {
-    switch (status) {
-      case TaskStatus.all:
-        return 'Todas';
-      case TaskStatus.completed:
-        return 'Completadas';
-      case TaskStatus.inProgress:
-        return 'En progreso';
-      case TaskStatus.incomplete:
-        return 'Incompletas';
-    }
+  Widget _buildFilterButton(String label, TaskStatus status) {
+    final isSelected = _selectedStatus == status;
+    final primaryColor = isSelected ? Colors.purple : Colors.white;
+    final borderColor = isSelected ? Colors.purple : Colors.grey[300]!;
+    final textColor = isSelected ? Colors.white : Colors.purple;
+    return ElevatedButton(
+      onPressed: () {
+        setState(() {
+          _selectedStatus = status;
+          _updateSearchQuery(_searchQuery);
+        });
+      },
+      style: ButtonStyle(
+        backgroundColor: MaterialStateProperty.all(primaryColor),
+        shape: MaterialStateProperty.all(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.0),
+            side: BorderSide(color: borderColor),
+          ),
+        ),
+      ),
+      child: Text(
+        label,
+        style: TextStyle(color: textColor),
+      ),
+    );
   }
 
   void _updateSearchQuery(String query) {
@@ -126,7 +136,7 @@ class _SearchScreenState extends State<SearchScreen> {
         taskQuery = taskQuery.where('isCompleted', isEqualTo: 2);
         break;
       default:
-        // No se aplica ningún filtro adicional si se selecciona "All Tasks"
+        // No se aplica ningún filtro adicional si se selecciona "Todas"
         break;
     }
 

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod_todo_app/auth/controller/auth_controller.dart';
+import 'package:flutter_riverpod_todo_app/common/loading_page.dart';
 import 'package:flutter_riverpod_todo_app/data/data.dart';
 import 'package:flutter_riverpod_todo_app/providers/date_provider.dart';
 import 'package:flutter_riverpod_todo_app/screens/create_task_screen.dart';
@@ -50,24 +51,6 @@ class HomeScreen extends ConsumerWidget {
               ),
             ),
             const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        SearchScreen(currentUser?.uid), // Crear una instancia de la página de búsqueda
-                  ),
-                );
-              },
-              child: const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: DisplayWhiteText(
-                  text: 'Buscar Tareas',
-                ),
-              ),
-            ),
-            const SizedBox(height: 20),
             StreamBuilder<QuerySnapshot>(
               stream: tasksCollection
                   .where('userId', isEqualTo: currentUser?.uid)
@@ -79,7 +62,7 @@ class HomeScreen extends ConsumerWidget {
                 }
 
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const CircularProgressIndicator();
+                  return const Loader();
                 }
 
                 final List<Task> tasks =
@@ -98,6 +81,23 @@ class HomeScreen extends ConsumerWidget {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => SearchScreen(currentUser
+                                ?.uid), // Crear una instancia de la página de búsqueda
+                          ),
+                        );
+                      },
+                      child: const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: DisplayWhiteText(
+                          text: 'Buscar Tareas',
+                        ),
+                      ),
+                    ),
                     Text(
                       'In pending',
                       style: context.textTheme.headline6?.copyWith(
