@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod_todo_app/auth/controller/auth_controller.dart';
-import 'package:flutter_riverpod_todo_app/config/config.dart';
+import 'package:flutter_riverpod_todo_app/common/loading_page.dart';
 import 'package:flutter_riverpod_todo_app/data/data.dart';
 import 'package:flutter_riverpod_todo_app/providers/providers.dart';
 import 'package:flutter_riverpod_todo_app/utils/utils.dart';
@@ -26,6 +26,7 @@ class CreateTaskScreen extends ConsumerStatefulWidget {
 class _CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _noteController = TextEditingController();
+  bool _loading = false;
 
   @override
   void dispose() {
@@ -70,13 +71,15 @@ class _CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
               ),
               const Gap(30),
               ElevatedButton(
-                onPressed: _createTask,
-                child: const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: DisplayWhiteText(
-                    text: 'Save',
-                  ),
-                ),
+                onPressed: _loading ? null : _createTask,
+                child: _loading
+                    ? Loader()
+                    : const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: DisplayWhiteText(
+                          text: 'Save',
+                        ),
+                      ),
               ),
               const Gap(30),
             ],
@@ -105,9 +108,16 @@ class _CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
         isCompleted: false,
       );
 
+      setState(() {
+        _loading = true;
+      });
+
       await ref.read(tasksProvider.notifier).createTask(task).then((value) {
+        setState(() {
+          _loading = false;
+        });
         AppAlerts.displaySnackbar(context, 'Task create successfully');
-        context.go(RouteLocation.home);
+        Navigator.of(context).pop();
       });
     } else {
       AppAlerts.displaySnackbar(context, 'Title cannot be empty');
