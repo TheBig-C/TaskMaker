@@ -50,24 +50,7 @@ class HomeScreen extends ConsumerWidget {
                 ],
               ),
             ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        SearchScreen(currentUser?.uid), // Crear una instancia de la página de búsqueda
-                  ),
-                );
-              },
-              child: const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: DisplayWhiteText(
-                  text: 'Search Tasks',
-                ),
-              ),
-            ),
+            
             const SizedBox(height: 20),
             StreamBuilder<QuerySnapshot>(
               stream: tasksCollection
