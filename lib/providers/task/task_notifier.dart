@@ -30,8 +30,9 @@ class TaskNotifier extends StateNotifier<TaskState> {
 
   Future<void> updateTask(Task task) async {
     try {
-      final isCompleted = !task.isCompleted;
-      final updatedTask = task.copyWith(isCompleted: isCompleted);
+      
+      final completed = task.isCompleted==1 ? 0:1;
+      final updatedTask = task.copyWith(isCompleted: completed);
       await _repository.updateTask(updatedTask);
       getTasks();
     } catch (e) {

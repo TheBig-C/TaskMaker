@@ -9,7 +9,7 @@ class Task extends Equatable {
   final TaskCategory category;
   final String time;
   final String date;
-  final bool isCompleted;
+  final int isCompleted;
   const Task({
     this.id,
     required this.title,
@@ -29,22 +29,23 @@ class Task extends Equatable {
       TaskKeys.category: category.name,
       TaskKeys.time: time,
       TaskKeys.date: date,
-      TaskKeys.isCompleted: isCompleted ? 1 : 0,
+      TaskKeys.isCompleted: isCompleted,
+
     };
   }
 
   factory Task.fromJson(String id, Map<String, dynamic> map) {
-    return Task(
-      id: id,
-      title: map[TaskKeys.title],
-      userId: map[TaskKeys.userId] ?? '',
-      note: map[TaskKeys.note],
-      category: TaskCategory.stringToTaskCategory(map[TaskKeys.category]),
-      time: map[TaskKeys.time],
-      date: map[TaskKeys.date],
-      isCompleted: map[TaskKeys.isCompleted] == 1 ? true : false,
-    );
-  }
+  return Task(
+    id: id,
+    title: map[TaskKeys.title],
+    userId: map[TaskKeys.userId] ?? '',
+    note: map[TaskKeys.note],
+    category: TaskCategory.stringToTaskCategory(map[TaskKeys.category]),
+    time: map[TaskKeys.time],
+    date: map[TaskKeys.date],
+    isCompleted: map[TaskKeys.isCompleted] ?? 6, // Usar 6 como valor predeterminado si es nulo
+  );
+}
 
   @override
   List<Object> get props {
@@ -67,7 +68,7 @@ class Task extends Equatable {
     TaskCategory? category,
     String? time,
     String? date,
-    bool? isCompleted,
+    int? isCompleted,
   }) {
     return Task(
       id: id ?? this.id,

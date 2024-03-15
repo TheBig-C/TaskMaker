@@ -26,6 +26,7 @@ class CreateTaskScreen extends ConsumerStatefulWidget {
 class _CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _noteController = TextEditingController();
+  String _status = 'Pending'; // Estado por defecto
 
   @override
   void dispose() {
@@ -56,6 +57,24 @@ class _CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
                 hintText: 'Task Title',
                 title: 'Task Title',
                 controller: _titleController,
+              ),
+              const Gap(30),
+              DropdownButtonFormField<String>(
+                value: _status,
+                onChanged: (String? newValue) {
+                  setState(() {
+                    _status = newValue!;
+                  });
+                },
+                items: <String>['Pending', 'In Progress'].map((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+                decoration: InputDecoration(
+                  labelText: 'Status',
+                ),
               ),
               const Gap(30),
               const CategoriesSelection(),
@@ -94,6 +113,12 @@ class _CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
     final time = ref.watch(timeProvider);
     final date = ref.watch(dateProvider);
     final category = ref.watch(categoryProvider);
+    int isCompleted = 1; // Por defecto, en proceso
+
+    if (_status == 'Pending') {
+      isCompleted = 2; // Cambia a pendiente si es seleccionado
+    }
+
     if (title.isNotEmpty) {
       final task = Task(
         title: title,
@@ -102,7 +127,7 @@ class _CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
         time: Helpers.timeToString(time),
         date: DateFormat.yMMMd().format(date),
         note: note,
-        isCompleted: false,
+        isCompleted: isCompleted,
       );
 
       await ref.read(tasksProvider.notifier).createTask(task).then((value) {
