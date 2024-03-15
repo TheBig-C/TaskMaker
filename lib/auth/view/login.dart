@@ -124,9 +124,10 @@ class _LoginViewState extends ConsumerState<LoginView> {
                       const SizedBox(height: 40),
                       RichText(
                         text: TextSpan(
-                          text: "Don't have an account?",
+                          text: "No tienes cuenta?",
                           style: const TextStyle(
                             fontSize: 16,
+                            color: Colors.black,
                           ),
                           children: [
                             TextSpan(

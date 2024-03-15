@@ -31,8 +31,16 @@ class WelcomePage extends ConsumerWidget {
             children: <Widget>[
               const Column(
                 children: <Widget>[
+                  SizedBox(
+                    height: 5,
+                  ),
+                ],
+              ),
+              Column(
+                children: <Widget>[
                   Text(
                     "Bienvenido a TaskMaker",
+                    textAlign: TextAlign.center,
                     style: TextStyle(
                       fontFamily: 'Sans Serif', // Set font family here
                       fontWeight: FontWeight.bold,
@@ -40,16 +48,8 @@ class WelcomePage extends ConsumerWidget {
                     ),
                   ),
                   SizedBox(
-                    height: 5,
+                    height: 20,
                   ),
-                ],
-              ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height / 3,
-                child: SvgPicture.asset('../assets/svgs/WelcomeSvg.svg'),
-              ),
-              Column(
-                children: <Widget>[
                   Text(
                     "Organizate con TaskMaker",
                     textAlign: TextAlign.center,
@@ -86,7 +86,7 @@ class WelcomePage extends ConsumerWidget {
                     ),
                   ),
                   const SizedBox(height: 10),
-                  MaterialButton(
+                  /*MaterialButton(
                     minWidth: double.infinity,
                     height: 60,
                     onPressed: () {},
@@ -102,7 +102,7 @@ class WelcomePage extends ConsumerWidget {
                         fontFamily: 'Ageo',
                       ),
                     ),
-                  ),
+                  ),*/
                 ],
               ),
               RichText(
@@ -110,6 +110,7 @@ class WelcomePage extends ConsumerWidget {
                   text: "Tienes una cuenta?",
                   style: const TextStyle(
                     fontSize: 16,
+                    color: Colors.black,
                   ),
                   children: [
                     TextSpan(
