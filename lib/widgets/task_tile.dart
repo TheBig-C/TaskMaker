@@ -21,10 +21,10 @@ class TaskTile extends StatelessWidget {
     final colors = context.colorScheme;
 
     final textDecoration =
-        task.isCompleted ? TextDecoration.lineThrough : TextDecoration.none;
-    final fontWeight = task.isCompleted ? FontWeight.normal : FontWeight.bold;
-    final double iconOpacity = task.isCompleted ? 0.3 : 0.5;
-    final double backgroundOpacity = task.isCompleted ? 0.1 : 0.3;
+        task.isCompleted==0 ? TextDecoration.lineThrough : TextDecoration.none;
+    final fontWeight = task.isCompleted==0 ? FontWeight.normal : FontWeight.bold;
+    final double iconOpacity = task.isCompleted==0 ? 0.3 : 0.5;
+    final double backgroundOpacity = task.isCompleted==0 ? 0.1 : 0.3;
 
     return Padding(
       padding: const EdgeInsets.only(left: 16, top: 10, bottom: 10),
@@ -60,7 +60,7 @@ class TaskTile extends StatelessWidget {
             ],
           )),
           Checkbox(
-            value: task.isCompleted,
+            value: task.isCompleted==0,
             onChanged: onCompleted,
             checkColor: colors.surface,
             // fillColor: MaterialStateProperty.resolveWith<Color>(

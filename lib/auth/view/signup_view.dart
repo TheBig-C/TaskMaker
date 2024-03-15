@@ -305,7 +305,7 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
                               onPressed: previousStep,
                               child: const Text('Atras'),
                               style: ElevatedButton.styleFrom(
-                                primary: Color.fromARGB(255, 198, 12, 12),
+                                backgroundColor: Color.fromARGB(255, 198, 12, 12),
                               ),
                             ),
                             ElevatedButton(
@@ -317,7 +317,7 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
                                 ),*/
                               ),
                               style: ElevatedButton.styleFrom(
-                                primary: Color.fromARGB(255, 198, 12, 12),
+                                backgroundColor: Color.fromARGB(255, 198, 12, 12),
                               ),
                             ),
                           ],
@@ -347,7 +347,7 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
                               },
                               child: const Text('Siguiete'),
                               style: ElevatedButton.styleFrom(
-                                primary: Color.fromARGB(255, 198, 12, 12),
+                                backgroundColor: Color.fromARGB(255, 198, 12, 12),
                               ),
                             ),
                           ],
