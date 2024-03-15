@@ -63,7 +63,7 @@ class HomeScreen extends ConsumerWidget {
               child: const Padding(
                 padding: EdgeInsets.all(8.0),
                 child: DisplayWhiteText(
-                  text: 'Search Tasks',
+                  text: 'Buscar Tareas',
                 ),
               ),
             ),
