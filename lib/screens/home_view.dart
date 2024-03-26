@@ -66,6 +66,7 @@ class _HomeViewState extends State<HomeView> {
             );
           });
         },
+        
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
