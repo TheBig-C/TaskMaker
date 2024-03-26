@@ -1,4 +1,9 @@
 # TaskMaker
+Nombres:
+Cesar Vera
+Christian Mendoza  
+Ignacio Garcia
+Manuel Delgadillo 
 
 Descripcion
 Aplicación desarrollada en flutter que permite a los usuarios agregar nuevas tareas, marcarlas como completadas, eliminarlas de la lista, generar reportes por estado de tareas en curso y tareas completadas.  
@@ -36,6 +41,7 @@ Funciones:
 Cesar Vera (Persistencia)  
 Christian Mendoza (Clases)  
 Ignacio Garcia (Diseño)  
+Manuel Delgadillo (Diseño UI)
 
 Configuración del Proyecto:  
 
